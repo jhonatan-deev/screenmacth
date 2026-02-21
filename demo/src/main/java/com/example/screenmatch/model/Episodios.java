@@ -1,16 +1,33 @@
 package com.example.screenmatch.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class Epsodios {
+@Entity
+@Table(
+        name = "episodios",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"titulo", "temporada", "numero_ep", "serie_id"}
+        )
+)
+public class Episodios {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer temporada;
     private String titulo;
     private Integer numeroEp;
     private Double avaliacao;
     private LocalDate dataLancamento;
 
-    public Epsodios(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
+    @ManyToOne
+    @JoinColumn(name = "serie_id")
+    private Serie serie;
+    public Episodios() {}
+
+    public Episodios(Integer numeroTemporada, DadosEpisodio dadosEpisodio, Serie serie) {
         this.temporada =  numeroTemporada;
         this.titulo = dadosEpisodio.titulo();
         this.numeroEp = dadosEpisodio.numeroEp();
@@ -26,6 +43,7 @@ public class Epsodios {
         }catch (DateTimeParseException ex){
             this.dataLancamento = null;
         }
+        this.serie = serie;
     }
 
     @Override
@@ -75,5 +93,9 @@ public class Epsodios {
 
     public void setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 }

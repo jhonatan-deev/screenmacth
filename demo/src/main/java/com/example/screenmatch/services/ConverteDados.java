@@ -1,10 +1,10 @@
 package com.example.screenmatch.services;
 
-import com.example.screenmatch.model.DadosSerie;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConverteDados implements IConverteDados {
     private ObjectMapper mapper = new ObjectMapper();
 
